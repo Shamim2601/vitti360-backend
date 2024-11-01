@@ -76,10 +76,24 @@ WSGI_APPLICATION = 'vitti360.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+import os
+from urllib.parse import urlparse  # Correct import for urlparse
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Parse the DATABASE_URL from the environment
+tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': tmpPostgres.path.lstrip('/'),  # Remove leading slash from path
+        'USER': tmpPostgres.username,
+        'PASSWORD': tmpPostgres.password,
+        'HOST': tmpPostgres.hostname,
+        'PORT': tmpPostgres.port or 5432,  # Default to 5432 if port is not specified
     }
 }
 
