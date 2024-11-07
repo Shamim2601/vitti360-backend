@@ -1,13 +1,14 @@
-# serializers.py
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
 class UserSerializer(serializers.ModelSerializer):
+    # is_staff = serializers.BooleanField(write_only=True, required=False)
     password = serializers.CharField(write_only=True, required=False)
 
     class Meta:
         model = User
-        fields = ['username', 'password', 'email', 'first_name', 'is_staff']
+        fields = ['id', 'username', 'password', 'email', 'first_name', 'is_staff', 'date_joined']  # Add id and date_joined
+        read_only_fields = ['id', 'date_joined']  # Make id and date_joined read-only
 
     def create(self, validated_data):
         # Create user with hashed password
