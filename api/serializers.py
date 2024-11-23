@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Blog
+from .models import Blog, Circular
 
 class BlogSerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source='author.username')
@@ -7,3 +7,11 @@ class BlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Blog
         fields = ['id', 'title', 'content', 'author', 'created_at', 'updated_at']
+
+class CircularSerializer(serializers.ModelSerializer):
+    author = serializers.ReadOnlyField(source='author.username')  # Display the author's username
+
+    class Meta:
+        model = Circular
+        fields = ['id', 'title', 'description', 'category', 'author', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'author', 'created_at', 'updated_at']
