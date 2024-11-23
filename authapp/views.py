@@ -17,7 +17,7 @@ class RegisterUserView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class DeleteUserView(APIView):
-    permission_classes = [IsStaffUser]
+    permission_classes = [IsAuthenticated]
 
     def delete(self, request, username):
         try:
