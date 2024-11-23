@@ -7,7 +7,7 @@ class Blog(models.Model):
         ('admission', 'Admission'),
     ]
     title = models.CharField(max_length=200)
-    content = models.TextField()
+    description = models.TextField()
     category = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default='job')  # Added category field
     author = models.CharField(max_length=100)  # Assuming author is a string, adjust if needed
     created_at = models.DateTimeField(auto_now_add=True)
