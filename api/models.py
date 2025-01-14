@@ -31,3 +31,18 @@ class Circular(models.Model):
 
     def __str__(self):
         return self.title
+    
+class Exam(models.Model):
+    title = models.CharField(max_length=255)
+    duration = models.IntegerField(default=60)
+    category = models.CharField(max_length=100)
+    num_questions = models.IntegerField(default=0)
+    questions = models.JSONField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    start_at = models.DateTimeField(null=True, blank = True)
+    end_at = models.DateTimeField(null=True, blank = True)
+
+    def save(self, *args, **kwargs):
+        # Automatically update the number of questions
+        self.num_questions = len(self.questions or [])
+        super().save(*args, **kwargs)
