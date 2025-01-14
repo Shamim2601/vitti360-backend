@@ -46,3 +46,12 @@ class Exam(models.Model):
         # Automatically update the number of questions
         self.num_questions = len(self.questions or [])
         super().save(*args, **kwargs)
+
+class Performance(models.Model):
+    username = models.CharField(max_length=100)
+    examId = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name="performances")
+    correct_count = models.IntegerField(default=0)
+    exam_duration = models.IntegerField(default=10)
+
+    def __str__(self):
+        return f"{self.username} - {self.examId.title}"

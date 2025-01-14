@@ -1,9 +1,9 @@
 from rest_framework import generics
-from .models import Blog, Circular, Exam
+from .models import Blog, Circular, Exam, Performance
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import BlogSerializer, CircularSerializer, ExamSerializer, ExamDetailSerializer, ExamCreateSerializer
+from .serializers import BlogSerializer, CircularSerializer, ExamSerializer, ExamDetailSerializer, ExamCreateSerializer, PerformanceSerializer
 from authapp.permissions import IsStaffOrReadOnlyForAuthenticated
 
 class BlogListCreateView(generics.ListCreateAPIView):
@@ -73,4 +73,21 @@ class ExamDeleteView(APIView):
             return Response({"message": "Exam deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
         except Exam.DoesNotExist:
             return Response({"error": "Exam not found"}, status=status.HTTP_404_NOT_FOUND)
+
+class PerformanceCreateView(generics.CreateAPIView):
+    queryset = Performance.objects.all()
+    serializer_class = PerformanceSerializer
+
+class PerformanceListView(generics.ListAPIView):
+    serializer_class = PerformanceSerializer
+
+    def get_queryset(self):
+        queryset = Performance.objects.all()
+        username = self.request.query_params.get('user', None)
+        exam_id = self.request.query_params.get('exam', None)
+        if username is not None:
+            queryset = queryset.filter(username__exact=username)
+        if exam_id is not None:
+            queryset = queryset.filter(examId__exact=exam_id)
+        return queryset
 
