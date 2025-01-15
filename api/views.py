@@ -91,3 +91,12 @@ class PerformanceListView(generics.ListAPIView):
             queryset = queryset.filter(examId__exact=exam_id)
         return queryset
 
+class PerformanceDeleteView(APIView):
+    def delete(self, request, pk):
+        try:
+            performance = Performance.objects.get(id=pk)
+            performance.delete()
+            return Response({"message": "Performance entry deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        except Performance.DoesNotExist:
+            return Response({"error": "Performance entry not found"}, status=status.HTTP_404_NOT_FOUND)
+

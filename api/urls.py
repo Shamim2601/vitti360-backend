@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import BlogListCreateView, BlogDetailView, CircularListCreateView, CircularDetailView,ExamListView, ExamCreateView, ExamDetailView, ExamDeleteView, PerformanceCreateView, PerformanceListView    
+from .views import BlogListCreateView, BlogDetailView, CircularListCreateView, CircularDetailView,ExamListView, ExamCreateView, ExamDetailView, ExamDeleteView, PerformanceCreateView, PerformanceListView, PerformanceDeleteView    
 
 urlpatterns = [
     path('blogs/', BlogListCreateView.as_view(), name='blog_list_create'),
@@ -12,4 +12,5 @@ urlpatterns = [
     path('exams/<int:exam_id>/delete/', ExamDeleteView.as_view(), name='exam-delete'),  # For deleting exams
     path('performances/', PerformanceListView.as_view(), name='performance-list'),
     path('performances/create/', PerformanceCreateView.as_view(), name='performance-create'),
+    path('performances/<int:pk>/delete/', PerformanceDeleteView.as_view(), name='performance-delete'),
 ]
